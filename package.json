@@ -19,8 +19,11 @@
   "homepage": "https://github.com/JAE-S/Constructor-Word-Guess#readme",
   "dependencies": {
     "chalk": "^2.4.2",
+    "clear": "^0.1.0",
+    "figures": "^3.0.0",
     "inquirer": "^7.0.0",
     "prompt": "^1.0.0",
+    "regex": "^0.1.1",
     "wrap-ansi": "^6.0.0"
   }
 }
