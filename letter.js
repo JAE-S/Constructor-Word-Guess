@@ -2,23 +2,23 @@
 var chalk = require('chalk');
 
 // // Letter constructor 
-var Letter = function(LETTER){
+var Letter = function(letter){
     
      // A string value to store the underlying character for the letter
-    this.letter = LETTER; 
+    this.letter = letter; 
     // A boolean value that stores whether that letter has been guessed yet
     this.guessed = false; 
 
-    this.display = function() {
+    Letter.prototype.toString = function() {
         if(this.guessed === true){
-            return LETTER; 
+            return letter; 
         } else {
             return "_"; 
         }
     }
 
-    this.checkAnswer = function(userGuess) {
-        if (userGuess === LETTER){
+    this.checkAnswer = function(guess) {
+        if (guess === letter){
             this.guessed = true; 
         } else {
             this.guessed = false; 

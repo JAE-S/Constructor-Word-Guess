@@ -74,12 +74,12 @@ var wordList = ["PLUM",
             wrongLetters = [];
             remaingGuesses = 5;      
         }
+
         gameOver = false; 
 
-        currentWord = wordList[Math.floor(Math.random() * wordList.length)];
-        console.log(currentWord)
-        correctLetters = new Word(currentWord); 
-        console.log(correctLetters); 
+        correctWord = new Word(wordList[Math.floor(Math.random() * wordList.length)]);
+        correctWord.generateLetters();
+        console.log(correctWord);
         userGuess();
     }
 

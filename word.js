@@ -1,11 +1,29 @@
 var letter = require("./letter")
 
-function Word(word) {
-    this.currentWord = word.split(" ");
+var Word = function(correctWord) {
+    this.correctWord = correctWord.split("");
+    this.correctLetters = [];
+    // console.log(this.correctWord);
+    // console.log(this.correctWord.length);
 
-    //   for(let i = 0; i < word.length; i++) {
-    //  
-    //   }
+    this.generateLetters = function(){
+        var lettersArr = this.correctWord;
+    
+        for(var i = 0; i < lettersArr.length; i++){
+          var addLetter = new letter(lettersArr[i]);
+            console.log(addLetter);
+            this.correctLetters.push(addLetter);
+        
+        }
+        console.log("\n (੭ˊᵕˋ)੭  What color am I thinking of?\n " + '          ' + this.correctLetters.join(' ') + '\n');
+    }
+
+    this.guessed = function(guess){
+        for(var i = 0; i < correctLetters.length; i++){
+            this.correctLetters[i].checkAnswer(guessed)
+        }
+    }
+
     }
   
   
