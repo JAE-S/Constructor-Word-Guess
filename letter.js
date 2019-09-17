@@ -2,30 +2,38 @@
 var chalk = require('chalk');
 
 // // Letter constructor 
-var Letter = function(letter){
+var Letter = function(correctLetters){
     
-     // A string value to store the underlying character for the letter
-    this.letter = letter; 
+    
+    // A string value to store the underlying character for the letter
+    this.correctLetters = correctLetters; 
+    // this.guesses = guesses;
     // A boolean value that stores whether that letter has been guessed yet
     this.guessed = false; 
 
-    Letter.prototype.toString = function() {
-        if(this.guessed === true){
-            return letter; 
+// this.thisLetter = function() {
+    Letter.prototype.letters = function() {
+        if(this.guessed){
+            return this.correctLetters; 
         } else {
-            return "_"; 
+            return " ◯ "; 
+            // return this.correctLetters; 
         }
     }
 
-    this.checkAnswer = function(guess) {
-        if (guess === letter){
-            this.guessed = true; 
+    this.checkedLetter = function (guess) {
+        console.log("these are the letters: " + correctLetters)
+        console.log(guess);
+        if ( guess === correctLetters) {
+            this.guessed = true;
         } else {
-            this.guessed = false; 
+            this.guessed = false;
         }
-        return this.guessed;
+      
     };
-};
+}
+
+
 
 module.exports = Letter;
 

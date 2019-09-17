@@ -7,9 +7,12 @@ var Word = require('./word.js');
 
 
 // ─────── Global Variables ─────── // 
-var guess; 
-var correctLetters = []; 
-var remaingGuesses = 5; 
+var currentGuess;
+var guesses = [];
+// var correctLetters = []; 
+var correctGuesses = [];
+var wrongLetters = []; 
+var remainingGuesses = 5; 
 var losses = 0; 
 var wins = 0; 
 var correctWord; 
@@ -29,6 +32,7 @@ var gameOver = true;
    ❍   ╲        ╱  ❍ 〵_)-〵▁▁  ᐟ      ┃▁┃ ╲▁╲     ┃▁▁▁▁ ᐟ ❍   〵▁▁▁▁|    <<〵▁▁▁▁ ᐟ    ┃▁▁▁▁▁|   |▁▁▁▁ />>   |▁▁▁▁/>>  
     .-._╲  ╱╲  ╱_.-.         ヽヽ      //   ╲╲▁     |||▁        ▁)(|▁    (__)  )(       <<   >>    )(   (__)   )(   (__) 
     〵_)─       ─(_/          (__)    (__)  (__)   (__)_)      (__)__)        (__)     (__) (__)  (__)        (__) 
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
                                                     COLOR EDITION 
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -47,7 +51,7 @@ function newGame(){
     ]).then(function(response) {
         
         if (response.start === "Yes"){ 
-            console.log(chalk.greenBright("\n          ٩(˘◡˘)۶ Ready to play             \n"))
+            console.log(chalk.greenBright("\n        ٩(˘◡˘)۶ Ready to play         \n"))
             start();
         } else {
             console.log(chalk.redBright("\n                ¯〵_(ツ)_〳¯                 \n"))
@@ -72,14 +76,14 @@ var wordList = ["PLUM",
         if (gameOver === true){
             correctLetters = []; 
             wrongLetters = [];
-            remaingGuesses = 5;      
+            remainingGuesses = 5;      
         }
 
         gameOver = false; 
 
         correctWord = new Word(wordList[Math.floor(Math.random() * wordList.length)]);
         correctWord.generateLetters();
-        console.log(correctWord);
+        // console.log(correctWord);
         userGuess();
     }
 
@@ -90,29 +94,46 @@ var wordList = ["PLUM",
     function userGuess() {
     // Prompts the user for each guess and keeps track of the user's remaining guesses
             // Asks user to guess a letter 
-            if(remaingGuesses >= 5) {
+            if(remainingGuesses > 0 ) {
                 inquirer.prompt([
                     {
                     type: "input",
-                    message: "Guess a letter!", 
+                    message: chalk.cyanBright("(੭ˊᵕˋ)੭  What color am I thinking of?\n " + "\n           " + correctWord.display()) +
+                    chalk.cyan("\n\n••••••••••••••••••••••••••••••••••••••••••••" + 
+                    chalk.redBright("\nIncorrect Guesses: " + chalk.bold(guesses.join(' '))) +
+                            "\n••••••••••••••••••••••••••••••••••••••••••••\n") +
+                            chalk.blue("\nRemaining Guesses: " + chalk.green(remainingGuesses) +
+                            "\nGuess a letter:"),
                     name: "guess"
                     }
                 ]).then(function(response) {
                     var regex = /^[a-z]+$/i;
                     
                     if (response.guess.length === 1 && regex.test(response.guess)) {
-                        guess = response.guess.toUpperCase();
-                            // Word.checkGuess(answer.guess);
-                    // console.log(guess); 
+                       
+                     currentGuess = response.guess.toUpperCase();
+                     // Runs Word.check using currentGuess
+                     correctWord.check(currentGuess); 
+                    
+
+                     guesses.push(currentGuess);
+                    
+                     remainingGuesses--;
+           
+                        userGuess(); 
+                  
                     } else {
                         console.log("\n Invalid. Please enter a letter A - Z.\n")
                         userGuess(); 
-                    // } else {
-                    // console.log("GAME OVER")
                     }   
+                   
+            
                 });
-
+             
+            } else {
+                console.log("GAME OVER");
             }
+            
     } 
 
   //───────────────────────────────────────────────────────────────────────────// 
@@ -120,9 +141,9 @@ var wordList = ["PLUM",
 //───────────────────────────────────────────────────────────────────────────// 
 
 
+
 // Letter.js should not require any other files.
 // Word.js should only require Letter.js
 // HINT: Write Letter.js first and test it on its own before moving on, then do the same thing with Word.js
 // HINT: If you name your letter's display function toString, JavaScript will call that function automatically whenever casting that object to a string (check out this example: https://jsbin.com/facawetume/edit?js,console)
-
 
